@@ -1,19 +1,22 @@
 package com.codepath.apps.restclienttemplate;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
 import com.codepath.apps.restclienttemplate.databinding.ActivityTimelineBinding;
 import com.codepath.apps.restclienttemplate.models.Tweet;
@@ -21,7 +24,6 @@ import com.codepath.apps.restclienttemplate.models.TweetDao;
 import com.codepath.apps.restclienttemplate.models.TweetWithUser;
 import com.codepath.apps.restclienttemplate.models.User;
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
-import com.github.scribejava.apis.TwitterApi;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -32,7 +34,7 @@ import java.util.List;
 
 import okhttp3.Headers;
 
-public class TimelineActivity extends AppCompatActivity {
+public class TimelineActivity extends AppCompatActivity implements ComposeTweetFragment.ComposeTweetDialogListener {
 
     public static final String TAG = "TimelineActivity";
     private final int REQUEST_CODE = 20;
@@ -56,7 +58,8 @@ public class TimelineActivity extends AppCompatActivity {
         setContentView(view);
         //configure client for API calls
         client = TwitterApp.getRestClient(this);
-
+        //StyleActionBar
+        styleActionBar();
         //Declaring database
         tweetDao = ((TwitterApp) getApplicationContext()).getMyDatabase().tweetDao();
         //bind swipe container
@@ -193,26 +196,53 @@ public class TimelineActivity extends AppCompatActivity {
         if(item.getItemId() == R.id.compose){
             //Compose icon is tapped
             //Navigate to compose activity
-            Intent i = new Intent(this,ComposeActivity.class);
-            startActivityForResult(i, REQUEST_CODE);
+//            Intent i = new Intent(this,ComposeActivity.class);
+//            startActivityForResult(i, REQUEST_CODE);
+            showEditDialog();
             return true;
         }
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        if(requestCode == REQUEST_CODE && resultCode == RESULT_OK){
-            // Get data from intent(tweet
-            Tweet tweet = Parcels.unwrap(data.getParcelableExtra("tweet"));
-            // Update recycler view with new tweet
+//    @Override
+//    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+//        if(requestCode == REQUEST_CODE && resultCode == RESULT_OK){
+//            // Get data from intent(tweet
+//            Tweet tweet = Parcels.unwrap(data.getParcelableExtra("tweet"));
+//            // Update recycler view with new tweet
+//
+//            // Modify data source
+//            tweets.add(0,tweet);
+//            //Update the adapter
+//            adapter.notifyItemInserted(0);
+//            rvTweets.smoothScrollToPosition(0);
+//        }
+//        super.onActivityResult(requestCode, resultCode, data);
+//    }
+    public void styleActionBar(){
+        // Define ActionBar object
+        ActionBar actionBar;
+        actionBar = getSupportActionBar();
 
-            // Modify data source
-            tweets.add(0,tweet);
-            //Update the adapter
-            adapter.notifyItemInserted(0);
-            rvTweets.smoothScrollToPosition(0);
-        }
-        super.onActivityResult(requestCode, resultCode, data);
+        // Define ColorDrawable object and parse color
+        // using parseColor method
+        // with color hash code as its parameter
+        ColorDrawable colorDrawable
+                = new ColorDrawable(Color.parseColor("#1da1f2"));
+
+        // Set BackgroundDrawable
+        actionBar.setBackgroundDrawable(colorDrawable);
+    }
+    private void showEditDialog() {
+        FragmentManager fm = getSupportFragmentManager();
+        ComposeTweetFragment composeTweetFragment = ComposeTweetFragment.newInstance();
+        composeTweetFragment.show(fm, "fragment_compose_tweet");
+    }
+
+    public void onFinishComposeTweetDialog(Tweet tweet){
+        tweets.add(0,tweet);
+        //Update the adapter
+        adapter.notifyItemInserted(0);
+        rvTweets.smoothScrollToPosition(0);
     }
 }

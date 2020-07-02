@@ -36,11 +36,13 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/tvUsername"
         android:layout_marginStart="5dp"
-        android:autoLink="web"
-        android:linksClickable="true"
         android:layout_marginTop="3dp"
         android:layout_marginRight="10dp"
         android:layout_toEndOf="@+id/ivProfileImage"
+        android:autoLink="web"
+        android:textColorLink="#FFFFFF"
+        android:linksClickable="true"
+        android:onClick="clickBody"
         android:text="This is my Tweet"
         android:textColor="#FFFFFF" />
 
