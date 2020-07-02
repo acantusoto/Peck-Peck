@@ -32,6 +32,11 @@ public class Tweet {
     @Ignore
     public User user;
 
+//    public String displayUrl1;
+//    public String displayUrl2;
+//    public String displayUrl3;
+//    public String displayUrl4;
+
     public static Tweet fromJson(JSONObject jsonObject) throws JSONException {
         Tweet tweet = new Tweet();
         tweet.body = jsonObject.getString("text");
