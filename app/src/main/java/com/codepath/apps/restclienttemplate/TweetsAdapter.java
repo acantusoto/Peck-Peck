@@ -22,6 +22,8 @@ import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Locale;
 
+import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
+
 public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder> {
 
     public final static String TAG = "TweetsAdapter";
@@ -74,6 +76,7 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
         TextView tvScreenName;
         TextView tvUsername;
         TextView tvTime;
+        ImageView ivImage;
         public ViewHolder(@NonNull ItemTweetBinding binding) {
             super(binding.getRoot());
             ivProfileImage = binding.ivProfileImage;
@@ -81,6 +84,7 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
             tvScreenName = binding.tvScreenName;
             tvUsername = binding.tvUsername;
             tvTime = binding.tvTime;
+            ivImage = binding.ivImage;
         }
 
         public void bind(Tweet tweet){
@@ -92,6 +96,18 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
                     .load(tweet.user.publicImageUrl)
                     .transform(new CircleCrop())
                     .into(ivProfileImage);
+            if(tweet.imageUrl == null){
+                ivImage.setVisibility(View.GONE);
+            }
+            else{
+                ivImage.setVisibility(View.VISIBLE);
+                int radius = 30; // corner radius, higher value = more rounded
+                int margin = 10; // crop margin, set to 0 for corners with no crop
+                Glide.with(context)
+                        .load(tweet.imageUrl)
+                        .transform(new RoundedCornersTransformation(radius, margin))
+                        .into(ivImage);
+            }
         }
     }
 

@@ -32,7 +32,8 @@ public class Tweet {
     @Ignore
     public User user;
 
-//    public String displayUrl1;
+    @Ignore
+    public String imageUrl;
 //    public String displayUrl2;
 //    public String displayUrl3;
 //    public String displayUrl4;
@@ -45,6 +46,14 @@ public class Tweet {
         tweet.user = user;
         tweet.id = jsonObject.getLong("id");
         tweet.userId = user.id;
+        try{
+            tweet.imageUrl = jsonObject.getJSONObject("entities").getJSONArray("media").
+                    getJSONObject(0).getString("media_url_https");
+
+        }
+        catch (JSONException e){
+
+        }
         return tweet;
     }
     //empty constructor for parcel
