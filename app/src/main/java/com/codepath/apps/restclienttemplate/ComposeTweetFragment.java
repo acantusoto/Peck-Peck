@@ -88,7 +88,6 @@ public class ComposeTweetFragment extends DialogFragment  {
                     Toast.makeText(getContext(), "Sorry, your tweet is too long", Toast.LENGTH_LONG).show();
                 }
                 else{
-                    Toast.makeText(getContext(), tweetContent, Toast.LENGTH_LONG).show();
                     //make api call to post tweet
                     client.publishTweet(tweetContent, new JsonHttpResponseHandler() {
                         @Override

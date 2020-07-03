@@ -203,22 +203,6 @@ public class TimelineActivity extends AppCompatActivity implements ComposeTweetF
         }
         return super.onOptionsItemSelected(item);
     }
-
-//    @Override
-//    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-//        if(requestCode == REQUEST_CODE && resultCode == RESULT_OK){
-//            // Get data from intent(tweet
-//            Tweet tweet = Parcels.unwrap(data.getParcelableExtra("tweet"));
-//            // Update recycler view with new tweet
-//
-//            // Modify data source
-//            tweets.add(0,tweet);
-//            //Update the adapter
-//            adapter.notifyItemInserted(0);
-//            rvTweets.smoothScrollToPosition(0);
-//        }
-//        super.onActivityResult(requestCode, resultCode, data);
-//    }
     public void styleActionBar(){
         // Define ActionBar object
         ActionBar actionBar;
