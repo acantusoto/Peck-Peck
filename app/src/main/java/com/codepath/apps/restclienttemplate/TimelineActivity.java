@@ -223,6 +223,7 @@ public class TimelineActivity extends AppCompatActivity implements ComposeTweetF
         composeTweetFragment.show(fm, "fragment_compose_tweet");
     }
 
+    // Get's tweet from fragment
     public void onFinishComposeTweetDialog(Tweet tweet){
         tweets.add(0,tweet);
         //Update the adapter
